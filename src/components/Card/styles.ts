@@ -5,11 +5,13 @@ export const CardContainer = styled.div`
   background-color: ${cores.brancoCard};
   color: ${cores.rosa};
   position: relative;
-  border: solid 1px ${cores.rosa};
-  border-radius: 1px;
+  width: 100%;
 
-  img {
-    border-radius: 1px;
+  > img {
+    display: block;
+    width: 100%;
+    height: 248px;
+    object-fit: cover;
   }
 `
 
@@ -17,10 +19,15 @@ export const Infos = styled.div`
   padding: 8px;
   line-height: 22px;
 
+  border-right: 1px solid ${cores.rosa};
+  border-bottom: 1px solid ${cores.rosa};
+  border-left: 1px solid ${cores.rosa};
+
   p {
     margin-top: 16px;
     margin-bottom: 16px;
     font-size: 14px;
+    display: block;
   }
 
   button {
@@ -28,10 +35,10 @@ export const Infos = styled.div`
     color: ${cores.rosaClaro};
     border: none;
     padding: 4px;
-    margin-top: 16px;
+    margin-top: 8px;
     font-weight: bold;
-    border-radius: 1px;
-    transition: transform 08s ease;
+    border-radius: 1.5px;
+    transition: transform 02s ease;
     cursor: pointer;
 
     &:hover {
