@@ -1,6 +1,7 @@
 import Header from '../../components/Header'
 import Lista from '../../components/Lista'
 import { Container } from '../../styles'
+import Footer from '../../Footer'
 
 const Home = () => (
   <>
@@ -8,6 +9,7 @@ const Home = () => (
     <Container>
       <Lista />
     </Container>
+    <Footer />
   </>
 )
 
