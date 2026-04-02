@@ -2,10 +2,12 @@ import Header from '../../components/Header'
 import Lista from '../../components/Lista'
 import { Container } from '../../styles'
 import Footer from '../../components/Footer'
+import Hero from '../../components/Hero'
 
-const Home = () => (
+const Perfil = () => (
   <>
-    <Header tipo="home" />
+    <Header tipo="perfil" />
+    <Hero />
     <Container>
       <Lista />
     </Container>
@@ -13,4 +15,4 @@ const Home = () => (
   </>
 )
 
-export default Home
+export default Perfil

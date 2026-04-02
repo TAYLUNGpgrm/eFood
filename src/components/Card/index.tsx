@@ -2,6 +2,7 @@ import { CardContainer, Infos, Nota } from './styles'
 import estrela from '../../Assets/images/estrela.svg'
 import { Tag } from './styles'
 import { Tags } from './styles'
+import { Link } from 'react-router-dom'
 
 type Props = {
   titulo: string
@@ -28,7 +29,9 @@ const Card = ({ titulo, nota, descricao, capa, infos }: Props) => (
         </span>
       </Nota>
       <p>{descricao}</p>
-      <button>Saiba mais</button>
+      <Link to="/perfil">
+        <button>Saiba mais</button>
+      </Link>
     </Infos>
   </CardContainer>
 )
