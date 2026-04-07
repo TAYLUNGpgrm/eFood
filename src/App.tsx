@@ -1,12 +1,18 @@
-import { GlobalStyle } from './styles'
-import Home from './Pages/Home'
+import { Provider } from 'react-redux'
+import { BrowserRouter } from 'react-router-dom'
+
+import { store } from './store'
+import { GlobalStyle } from './styles' // O nome que você usa
+import Rotas from './routes'
 
 function App() {
   return (
-    <>
-      <GlobalStyle />
-      <Home />
-    </>
+    <Provider store={store}>
+      <BrowserRouter>
+        <GlobalStyle />
+        <Rotas />
+      </BrowserRouter>
+    </Provider>
   )
 }
 

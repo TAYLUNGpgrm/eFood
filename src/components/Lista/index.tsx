@@ -1,21 +1,35 @@
 import Card from '../Card'
-import restaurantes from '../../containers/Lista/dados'
 import { Listagem } from './styles'
+import { Restaurante, Prato } from '../../services/api' // Importando as interfaces reais
 
-const Lista = () => (
-  <Listagem>
-    {restaurantes.map((item) => (
-      <li key={item.id}>
-        <Card
-          titulo={item.titulo}
-          nota={item.nota}
-          descricao={item.descricao}
-          capa={item.capa}
-          infos={item.infos}
-        />
-      </li>
-    ))}
-  </Listagem>
-)
+type Props = {
+  tipo: 'home' | 'perfil'
+  restaurantes?: Restaurante[]
+  pratos?: Prato[] // Agora o TS sabe que essa prop existe!
+}
+
+const Lista = ({ tipo, restaurantes, pratos }: Props) => {
+  // Lógica inteligente: se for perfil, olha para pratos. Se for home, para restaurantes.
+  const dadosParaExibir = tipo === 'perfil' ? pratos : restaurantes
+  const listaFinal = dadosParaExibir || []
+
+  return (
+    <Listagem tipo={tipo}>
+      {listaFinal.map((item) => (
+        <li key={item.id}>
+          <Card
+            id={item.id}
+            tipo={tipo}
+            // O segredo do Sênior: usar o operador 'in' para checar qual campo usar
+            titulo={'titulo' in item ? item.titulo : (item as Prato).nome}
+            capa={'capa' in item ? item.capa : (item as Prato).foto}
+            descricao={item.descricao}
+            nota={'avaliacao' in item ? item.avaliacao : undefined}
+          />
+        </li>
+      ))}
+    </Listagem>
+  )
+}
 
 export default Lista

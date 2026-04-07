@@ -1,15 +1,16 @@
 import styled from 'styled-components'
-import { cores } from '../../styles'
+// Importe a tipagem que criamos no index da Lista
 
-export const Listagem = styled.ul`
+type Props = {
+  tipo: 'home' | 'perfil'
+}
+
+export const Listagem = styled.ul<Props>`
+  display: grid;
+  grid-template-columns: ${(props) =>
+    props.tipo === 'home' ? '1fr 1fr' : '1fr 1fr 1fr'};
+  column-gap: ${(props) => (props.tipo === 'home' ? '80px' : '32px')};
+  row-gap: ${(props) => (props.tipo === 'home' ? '48px' : '32px')};
   margin-top: 80px;
   margin-bottom: 120px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  column-gap: 80px;
-  list-style: none;
-  row-gap: 48px;
-  border: solid 2.5px ${cores.rosa};
-  padding: 0;
-  width: 100%;
 `
