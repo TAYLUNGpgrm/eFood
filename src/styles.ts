@@ -1,10 +1,10 @@
 import styled, { createGlobalStyle } from 'styled-components'
 
-export const cores = {
-  branco: '#FFF8F2',
-  brancoCard: '#FFFFFF',
-  rosa: '#E66767',
-  rosaClaro: '#FFEBD9'
+export const colors = {
+  white: '#FFF8F2',
+  whiteCard: '#FFFFFF',
+  pink: '#E66767',
+  pinkLight: '#FFEBD9'
 }
 
 export const GlobalStyle = createGlobalStyle`
@@ -18,8 +18,8 @@ export const GlobalStyle = createGlobalStyle`
 }
 
   body{
-    background-color: ${cores.branco};
-    color: ${cores.rosa};
+    background-color: ${colors.white};
+    color: ${colors.pink};
   }
 `
 

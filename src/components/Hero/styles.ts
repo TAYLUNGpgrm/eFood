@@ -1,24 +1,23 @@
 import styled from 'styled-components'
-import Macarron from '../../Assets/images/heroMacarron.png'
+import { colors } from '../../styles'
 
-export const HeroContainer = styled.div`
-  display: block;
-  height: 280px;
+export const Banner = styled.div<{ $capa: string }>`
   width: 100%;
+  height: 280px;
+  display: block;
   background-repeat: no-repeat;
-  background-position: center;
   background-size: cover;
-  background-image: url(${Macarron});
+  background-image: url(${(props) => props.$capa});
   position: relative;
-  padding: 32px 0;
+  color: ${colors.white};
 
   &::after {
     position: absolute;
-    top: 0;
-    left: 0;
+    background-color: rgba(0, 0, 0, 0.5);
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
+    top: 0;
+    left: 0;
     content: '';
   }
 
@@ -29,19 +28,16 @@ export const HeroContainer = styled.div`
     flex-direction: column;
     justify-content: space-between;
     height: 100%;
-    max-width: 1024px;
-    margin: 0 auto;
+    padding: 32px 0;
   }
 `
 
-export const Categoria = styled.p`
-  font-weight: 100;
+export const Tipo = styled.p`
   font-size: 32px;
-  color: #ffffff;
+  font-weight: 100;
 `
 
-export const NomeRestaurante = styled.h2`
-  font-weight: 900;
+export const Titulo = styled.h2`
   font-size: 32px;
-  color: #ffffff;
+  font-weight: 900;
 `

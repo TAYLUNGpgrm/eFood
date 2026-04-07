@@ -1,9 +1,9 @@
 import styled from 'styled-components'
-import { cores } from '../../styles'
+import { colors } from '../../styles'
 
 export const CardContainer = styled.div`
-  background-color: ${cores.rosa};
-  color: ${cores.rosaClaro};
+  background-color: ${colors.pink};
+  color: ${colors.pinkLight};
   padding: 8px;
 
   img{
@@ -26,8 +26,8 @@ p {
 `
 
 export const Button = styled.button`
-  background-color: ${cores.rosaClaro};
-  color: ${cores.rosa};
+  background-color: ${colors.pinkLight};
+  color: ${colors.pink};
   border: none;
   padding: 4px;
   width: 100%;

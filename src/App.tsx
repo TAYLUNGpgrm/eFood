@@ -1,17 +1,18 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import Home from './Pages/Home'
-import Perfil from './Pages/Perfil'
-import { GlobalStyle } from './styles'
+import { Provider } from 'react-redux'
+import { BrowserRouter } from 'react-router-dom'
+
+import { store } from './store'
+import { GlobalStyle } from './styles' // O nome que você usa
+import Rotas from './routes'
 
 function App() {
   return (
-    <BrowserRouter>
-      <GlobalStyle />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/perfil" element={<Perfil />} />
-      </Routes>
-    </BrowserRouter>
+    <Provider store={store}>
+      <BrowserRouter>
+        <GlobalStyle />
+        <Rotas />
+      </BrowserRouter>
+    </Provider>
   )
 }
 

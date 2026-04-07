@@ -1,8 +1,8 @@
 import styled from 'styled-components'
-import { cores } from '../../styles'
+import { colors } from '../../styles'
 
 export const FooterStyles = styled.footer`
-  background-color: ${cores.rosaClaro};
+  background-color: ${colors.pinkLight};
   padding: 40px 0;
   display: flex;
   flex-direction: column;
@@ -14,7 +14,7 @@ export const FooterStyles = styled.footer`
   }
 
   p {
-    color: ${cores.rosa};
+    color: ${colors.pink};
     font-size: 10px;
     text-align: center;
     max-width: 480px;

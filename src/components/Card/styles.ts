@@ -1,55 +1,56 @@
 import styled from 'styled-components'
-import { cores } from '../../styles'
+import { colors } from '../../styles' // Usando o nome correto agora
 
-export const CardContainer = styled.div`
-  background-color: ${cores.brancoCard};
-  color: ${cores.rosa};
+type Props = {
+  tipo: 'home' | 'perfil'
+}
+
+export const CardContainer = styled.div<Props>`
+  background-color: ${(props) =>
+    props.tipo === 'home' ? colors.whiteCard : colors.pink};
+  color: ${(props) => (props.tipo === 'home' ? colors.pink : colors.pinkLight)};
   position: relative;
   width: 100%;
+  border: 1px solid ${colors.pink};
 
   > img {
     display: block;
     width: 100%;
     height: 248px;
     object-fit: cover;
+    padding: ${(props) => (props.tipo === 'perfil' ? '8px' : '0')};
   }
 `
 
-export const Infos = styled.div`
+export const Infos = styled.div<Props>`
   padding: 8px;
   line-height: 22px;
 
-  border-right: 1px solid ${cores.rosa};
-  border-bottom: 1px solid ${cores.rosa};
-  border-left: 1px solid ${cores.rosa};
-
   p {
-    margin-top: 16px;
-    margin-bottom: 16px;
+    margin-top: 8px;
+    margin-bottom: 8px;
     font-size: 14px;
     display: block;
   }
 
-  button {
-    background-color: ${cores.rosa};
-    color: ${cores.rosaClaro};
+  button,
+  a {
+    display: inline-block;
+    background-color: ${(props) =>
+      props.tipo === 'home' ? colors.pink : colors.pinkLight};
+    color: ${(props) =>
+      props.tipo === 'home' ? colors.pinkLight : colors.pink};
     border: none;
-    padding: 4px;
-    margin-top: 8px;
+    padding: 4px 6px;
+    text-decoration: none;
     font-weight: bold;
-    border-radius: 1.5px;
-    transition: transform 02s ease;
+    font-size: 14px;
+    width: ${(props) => (props.tipo === 'home' ? 'auto' : '100%')};
     cursor: pointer;
-
-    &:hover {
-      transform: scale(1.02);
-      border: none;
-      border-radius: 2px;
-    }
   }
 `
 
-export const Nota = styled.div`
+export const Nota = styled.div<Props>`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -57,7 +58,17 @@ export const Nota = styled.div`
   h3 {
     font-size: 18px;
     font-weight: bold;
-    margin: 0;
+  }
+
+  span {
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    font-size: 18px;
+
+    img {
+      margin-left: 8px;
+    }
   }
 `
 
@@ -66,17 +77,95 @@ export const Tags = styled.div`
   top: 16px;
   right: 16px;
   display: flex;
-  cursor: pointer;
 `
 
 export const Tag = styled.div`
-  background-color: ${cores.rosa};
-  color: ${cores.rosaClaro};
+  background-color: ${colors.pink};
+  color: ${colors.pinkLight};
   padding: 4px 6px;
   font-size: 12px;
   font-weight: bold;
   margin-left: 8px;
-  display: inline-block;
-  border-radius: 1px;
-  border: none;
+`
+
+export const Modal = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+
+  &.visivel {
+    display: flex;
+  }
+
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+  }
+`
+
+export const ModalContent = styled.div`
+  max-width: 1024px;
+  width: 100%;
+  position: relative;
+  z-index: 1;
+  background-color: ${colors.pink};
+  color: ${colors.white};
+  padding: 32px;
+
+  header {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 8px;
+
+    img {
+      cursor: pointer;
+      width: 16px;
+      height: 16px;
+    }
+  }
+
+  div {
+    display: flex;
+    gap: 24px;
+
+    img {
+      width: 280px;
+      height: 280px;
+      object-fit: cover;
+    }
+
+    aside {
+      h4 {
+        font-size: 18px;
+        font-weight: 900;
+        margin-bottom: 16px;
+      }
+
+      p {
+        font-size: 14px;
+        line-height: 22px;
+        margin-bottom: 16px;
+      }
+
+      button {
+        background-color: ${colors.pinkLight};
+        color: ${colors.pink};
+        border: none;
+        padding: 4px 8px;
+        font-weight: bold;
+        cursor: pointer;
+        width: auto;
+      }
+    }
+  }
 `

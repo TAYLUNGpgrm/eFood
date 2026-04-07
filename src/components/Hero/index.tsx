@@ -1,12 +1,18 @@
-import { HeroContainer, Categoria, NomeRestaurante } from './styles'
+import { Restaurante } from '../../services/api'
+import { Banner, Tipo, Titulo } from './styles'
+import { Container } from '../../styles'
 
-const Hero = () => (
-  <HeroContainer>
-    <div className="container">
-      <Categoria>Italiana</Categoria>
-      <NomeRestaurante>La Dolce Vita Trattoria</NomeRestaurante>
-    </div>
-  </HeroContainer>
+type Props = {
+  restaurante: Restaurante
+}
+
+const Hero = ({ restaurante }: Props) => (
+  <Banner $capa={restaurante.capa}>
+    <Container className="container">
+      <Tipo>{restaurante.tipo}</Tipo>
+      <Titulo>{restaurante.titulo}</Titulo>
+    </Container>
+  </Banner>
 )
 
 export default Hero
