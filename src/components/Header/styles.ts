@@ -11,6 +11,7 @@ export const HeaderBar = styled.header<Props>`
   background-size: cover;
   background-repeat: no-repeat;
   background-color: ${colors.pinkLight};
+  border-bottom: 2px dotted ${colors.pink};
 
   /* Mantemos o topo com 40px e zeramos o bottom para controle total pelo H1 */
   padding: ${(props) => (props.tipo === 'home' ? '40px 0 0' : '64px 0')};
@@ -49,6 +50,7 @@ export const Logo = styled.img`
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
+  border-radius: 4px;
 `
 
 export const Links = styled.nav`
@@ -64,5 +66,6 @@ export const Links = styled.nav`
     text-decoration: none;
     font-weight: bold;
     font-size: 18px;
+    cursor: pointer;
   }
 `

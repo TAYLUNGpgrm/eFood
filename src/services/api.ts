@@ -1,4 +1,3 @@
-// O correto é tudo junto dentro de /query/react
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 // Importamos as interfaces que definimos antes

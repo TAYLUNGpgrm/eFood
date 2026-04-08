@@ -5,6 +5,7 @@ import Lista from '../../containers/Lista'
 import Footer from '../../components/Footer'
 import { Container } from '../../styles'
 import { useGetRestauranteQuery } from '../../services/api'
+import Cart from '../../components/Cart'
 
 const Perfil = () => {
   const { id } = useParams()
@@ -19,6 +20,7 @@ const Perfil = () => {
       <Container>
         <Lista tipo="perfil" pratos={restaurante.cardapio} />
       </Container>
+      <Cart />
       <Footer />
     </>
   )

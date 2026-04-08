@@ -1,4 +1,9 @@
+import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
+
+import { RootReducer } from '../../store'
+import { open } from '../../store/reducers/cart'
+
 import { HeaderBar, Links, Logo } from './styles'
 import logo from '../../Assets/images/logo.svg'
 
@@ -7,6 +12,14 @@ type Props = {
 }
 
 const Header = ({ tipo }: Props) => {
+  const dispatch = useDispatch()
+
+  const { items } = useSelector((state: RootReducer) => state.cart)
+
+  const handleOpenCart = () => {
+    dispatch(open())
+  }
+
   return (
     <HeaderBar tipo={tipo}>
       <div className="container">
@@ -21,7 +34,10 @@ const Header = ({ tipo }: Props) => {
           <Links>
             <Link to="/">Restaurantes</Link>
             <Logo src={logo} alt="efood" />
-            <span>0 produto(s) no carrinho</span>
+            {/* Agora o span é dinâmico e clicável */}
+            <span onClick={handleOpenCart}>
+              {items.length} produto(s) no carrinho
+            </span>
           </Links>
         )}
       </div>

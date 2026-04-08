@@ -11,7 +11,8 @@ export const CardContainer = styled.div<Props>`
   color: ${(props) => (props.tipo === 'home' ? colors.pink : colors.pinkLight)};
   position: relative;
   width: 100%;
-  border: 1px solid ${colors.pink};
+  border: 2px solid ${colors.pink};
+  border-radius: 2px;
 
   > img {
     display: block;
@@ -36,6 +37,7 @@ export const Infos = styled.div<Props>`
   button,
   a {
     display: inline-block;
+    border-radius: 2px;
     background-color: ${(props) =>
       props.tipo === 'home' ? colors.pink : colors.pinkLight};
     color: ${(props) =>
