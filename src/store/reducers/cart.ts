@@ -23,19 +23,22 @@ const cartSlice = createSlice({
         alert('Este item já está no carrinho')
       }
     },
-    // Remove o item filtrando pelo ID
     remove: (state, action: PayloadAction<number>) => {
       state.items = state.items.filter((item) => item.id !== action.payload)
     },
-    // Controla a visibilidade da Sidebar
     open: (state) => {
       state.isOpen = true
     },
     close: (state) => {
       state.isOpen = false
+    },
+    // ADICIONE ESTA FUNÇÃO AQUI PARA LIMPAR O CARRINHO:
+    clear: (state) => {
+      state.items = []
     }
   }
 })
 
-export const { add, remove, open, close } = cartSlice.actions
+// EXPORTE O CLEAR AQUI TAMBÉM:
+export const { add, remove, open, close, clear } = cartSlice.actions
 export default cartSlice.reducer

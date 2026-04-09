@@ -1,10 +1,10 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
-import { useDispatch } from 'react-redux' // Adicionamos apenas o necessário
+import { useDispatch } from 'react-redux'
 
-import { add, open } from '../../store/reducers/cart' // Importamos as ações
-import { Prato } from '../../services/api' // Importamos a interface
+import { add, open } from '../../store/reducers/cart'
+import { Prato } from '../../services/api'
 
+import Button from '../Button' // Importando o novo componente centralizado
 import * as S from './styles'
 import estrela from '../../Assets/images/estrela.png'
 import fechar from '../../Assets/images/close.png'
@@ -17,8 +17,8 @@ type Props = {
   capa: string
   infos?: string[]
   tipo: 'home' | 'perfil'
-  preco?: number // Mantemos para o Redux saber o valor
-  porcao?: string // Mantemos para o Redux saber a porção
+  preco?: number
+  porcao?: string
 }
 
 const Card = ({
@@ -33,7 +33,7 @@ const Card = ({
   porcao
 }: Props) => {
   const [modalEstaAberto, setModalEstaAberto] = useState(false)
-  const dispatch = useDispatch() // Hook para disparar ações
+  const dispatch = useDispatch()
 
   const handleAddToCart = () => {
     const prato: Prato = {
@@ -76,16 +76,25 @@ const Card = ({
           <p>{descricao}</p>
 
           {tipo === 'home' ? (
-            <Link to={`/perfil/${id}`}>Saiba mais</Link>
+            <Button
+              type="link"
+              to={`/perfil/${id}`}
+              title={`Clique para saber mais sobre ${titulo}`}
+            >
+              Saiba mais
+            </Button>
           ) : (
-            <button onClick={() => setModalEstaAberto(true)}>
+            <Button
+              type="button"
+              onClick={() => setModalEstaAberto(true)}
+              title={`Clique para ver detalhes de ${titulo}`}
+            >
               Adicionar ao carrinho
-            </button>
+            </Button>
           )}
         </S.Infos>
       </S.CardContainer>
 
-      {/* Seu Modal original, apenas conectando o botão final */}
       <S.Modal className={modalEstaAberto ? 'visivel' : ''}>
         <S.ModalContent className="container">
           <header>
@@ -102,10 +111,14 @@ const Card = ({
               <p>{descricao}</p>
               {porcao && <p>Serve: {porcao}</p>}
 
-              {/* Agora este botão dispara a função que integra com o Redux */}
-              <button onClick={handleAddToCart}>
+              <Button
+                type="button"
+                variant="secondary"
+                onClick={handleAddToCart}
+                title="Clique para adicionar este prato ao seu carrinho"
+              >
                 Adicionar ao carrinho - R$ {preco?.toFixed(2).replace('.', ',')}
-              </button>
+              </Button>
             </aside>
           </div>
         </S.ModalContent>
