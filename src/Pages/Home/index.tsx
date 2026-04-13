@@ -13,7 +13,6 @@ const Home = () => {
     <>
       <Header tipo="home" />
       <Container>
-        {/* Agora passamos os dados que vieram da API para a Lista */}
         <Lista tipo="home" restaurantes={restaurantes || []} />
       </Container>
       <Footer />

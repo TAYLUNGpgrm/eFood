@@ -1,16 +1,33 @@
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { IMaskInput } from 'react-imask'
+import { useSelector } from 'react-redux'
+
+import { RootReducer } from '../../../store'
+import { usePurchaseMutation } from '../../../services/api'
+import { CheckoutValues } from '../Checkout'
+import { parseToBrl } from '../../../utils'
 
 import Button from '../../Button'
 import * as S from './styles'
 
 type Props = {
   onBack: () => void
-  onConfirm: () => void
+  onConfirm: (orderId: string) => void
+  deliveryData: CheckoutValues
 }
 
-const Payment = ({ onBack, onConfirm }: Props) => {
+const Payment = ({ onBack, onConfirm, deliveryData }: Props) => {
+  const [purchase, { isLoading }] = usePurchaseMutation()
+  const { items } = useSelector((state: RootReducer) => state.cart)
+
+  const getTotalPrice = () => {
+    // Definindo acc como number e item como any para limpar o erro
+    return items.reduce((acc: number, item: any) => {
+      return acc + item.preco
+    }, 0)
+  }
+
   const form = useFormik({
     initialValues: {
       cardOwner: '',
@@ -26,8 +43,38 @@ const Payment = ({ onBack, onConfirm }: Props) => {
       expiresMonth: Yup.string().required('Obrigatório'),
       expiresYear: Yup.string().required('Obrigatório')
     }),
-    onSubmit: () => {
-      onConfirm()
+    onSubmit: async (values) => {
+      purchase({
+        products: items.map((item: any) => ({
+          id: item.id,
+          price: item.preco
+        })),
+        delivery: {
+          receiver: deliveryData.receiver,
+          address: {
+            description: deliveryData.address,
+            city: deliveryData.city,
+            zipCode: deliveryData.zipCode,
+            number: Number(deliveryData.number),
+            complement: deliveryData.complement
+          }
+        },
+        payment: {
+          card: {
+            name: values.cardOwner,
+            number: values.cardNumber,
+            code: Number(values.cardCode),
+            expires: {
+              month: Number(values.expiresMonth),
+              year: Number(values.expiresYear)
+            }
+          }
+        }
+      }).then((res: any) => {
+        if ('data' in res) {
+          onConfirm(res.data.orderId)
+        }
+      })
     }
   })
 
@@ -37,10 +84,7 @@ const Payment = ({ onBack, onConfirm }: Props) => {
 
   return (
     <S.CheckoutContainer>
-      <h3>
-        Pagamento - Valor a pagar{' '}
-        {/* Aqui você pode passar o valor total real */}
-      </h3>
+      <h3>Pagamento - Valor a pagar {parseToBrl(getTotalPrice())}</h3>
       <form onSubmit={form.handleSubmit}>
         <S.InputGroup>
           <label htmlFor="cardOwner">Nome no cartão</label>
@@ -123,7 +167,7 @@ const Payment = ({ onBack, onConfirm }: Props) => {
             type="submit"
             title="Clique para finalizar o pagamento"
           >
-            Finalizar pagamento
+            {isLoading ? 'Finalizando...' : 'Finalizar pagamento'}
           </Button>
           <Button
             variant="secondary"

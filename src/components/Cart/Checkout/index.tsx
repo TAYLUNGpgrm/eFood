@@ -5,9 +5,19 @@ import { IMaskInput } from 'react-imask'
 import Button from '../../Button'
 import * as S from './styles'
 
+// Definimos o tipo dos dados para facilitar a integração
+export type CheckoutValues = {
+  receiver: string
+  address: string
+  city: string
+  zipCode: string
+  number: string
+  complement?: string
+}
+
 type Props = {
   onBack: () => void
-  onConfirm: () => void
+  onConfirm: (values: CheckoutValues) => void // Agora recebe os valores
 }
 
 const Checkout = ({ onBack, onConfirm }: Props) => {
@@ -27,8 +37,8 @@ const Checkout = ({ onBack, onConfirm }: Props) => {
       zipCode: Yup.string().min(9, 'CEP inválido').required('Obrigatório'),
       number: Yup.string().required('Obrigatório')
     }),
-    onSubmit: () => {
-      onConfirm() // Chama a função que muda o estágio para 'payment'
+    onSubmit: (values) => {
+      onConfirm(values) // Envia os dados coletados para o componente pai
     }
   })
 

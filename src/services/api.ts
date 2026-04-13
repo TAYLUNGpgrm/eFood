@@ -1,6 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
-// Importamos as interfaces que definimos antes
 export interface Prato {
   id: number
   nome: string
@@ -21,21 +20,66 @@ export interface Restaurante {
   cardapio: Prato[]
 }
 
+interface Product {
+  id: number
+  price: number
+}
+
+interface PurchasePayload {
+  products: Product[]
+  delivery: {
+    receiver: string
+    address: {
+      description: string
+      city: string
+      zipCode: string
+      number: number
+      complement?: string
+    }
+  }
+  payment: {
+    card: {
+      name: string
+      number: string
+      code: number
+      expires: {
+        month: number
+        year: number
+      }
+    }
+  }
+}
+
+// Interface da resposta da API
+interface PurchaseResponse {
+  orderId: string
+}
+
 const api = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: 'https://api-ebac.vercel.app/api/efood'
   }),
   endpoints: (builder) => ({
-    // Endpoint para pegar todos os restaurantes (Home)
     getRestaurantes: builder.query<Restaurante[], void>({
       query: () => 'restaurantes'
     }),
-    // Endpoint para pegar um restaurante específico (Perfil)
     getRestaurante: builder.query<Restaurante, string>({
       query: (id) => `restaurantes/${id}`
+    }),
+    purchase: builder.mutation<PurchaseResponse, PurchasePayload>({
+      query: (body) => ({
+        url: 'checkout',
+        method: 'POST',
+        body
+      })
     })
   })
 })
 
-export const { useGetRestaurantesQuery, useGetRestauranteQuery } = api
+export const {
+  useGetRestaurantesQuery,
+  useGetRestauranteQuery,
+  usePurchaseMutation
+} = api
+
 export default api

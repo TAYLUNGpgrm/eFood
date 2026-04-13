@@ -6,12 +6,13 @@ import Footer from '../../components/Footer'
 import { Container } from '../../styles'
 import { useGetRestauranteQuery } from '../../services/api'
 import Cart from '../../components/Cart'
+import { BarLoader } from 'react-spinners'
 
 const Perfil = () => {
   const { id } = useParams()
   const { data: restaurante, isLoading } = useGetRestauranteQuery(id || '')
 
-  if (isLoading || !restaurante) return <h3>Carregando...</h3>
+  if (isLoading || !restaurante) return <BarLoader />
 
   return (
     <>

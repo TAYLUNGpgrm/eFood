@@ -6,7 +6,7 @@ import { close, remove, clear } from '../../store/reducers/cart'
 import { parseToBrl } from '../../utils'
 
 import Button from '../Button'
-import Checkout from './Checkout'
+import Checkout, { CheckoutValues } from './Checkout'
 import Payment from './Payment'
 import Success from './Success'
 import * as S from './styles'
@@ -16,10 +16,12 @@ type CartStage = 'cart' | 'delivery' | 'payment' | 'success'
 const Cart = () => {
   const { isOpen, items } = useSelector((state: RootReducer) => state.cart)
   const [currentStage, setCurrentStage] = useState<CartStage>('cart')
+  const [deliveryData, setDeliveryData] = useState<CheckoutValues>()
+  const [orderId, setOrderId] = useState('')
   const dispatch = useDispatch()
 
   const getTotalPrice = () => {
-    return items.reduce((acumulador, item) => {
+    return items.reduce((acumulador: number, item: any) => {
       return (acumulador += item.preco)
     }, 0)
   }
@@ -34,7 +36,7 @@ const Cart = () => {
   }
 
   const finishOrder = () => {
-    dispatch(clear()) // Limpa o carrinho no Redux
+    dispatch(clear())
     setCurrentStage('cart')
     dispatch(close())
   }
@@ -46,7 +48,7 @@ const Cart = () => {
         {currentStage === 'cart' && (
           <>
             <ul>
-              {items.map((item) => (
+              {items.map((item: any) => (
                 <li key={item.id}>
                   <S.CartItem>
                     <img src={item.foto} alt={item.nome} />
@@ -66,32 +68,43 @@ const Cart = () => {
             <S.Prices>
               Valor total <span>{parseToBrl(getTotalPrice())}</span>
             </S.Prices>
-            <Button
-              type="button"
-              variant="secondary"
-              title="Clique para continuar com a entrega"
-              onClick={() => setCurrentStage('delivery')}
-            >
-              Continuar com a entrega
-            </Button>
+            {items.length > 0 && (
+              <Button
+                type="button"
+                variant="secondary"
+                title="Clique para continuar com a entrega"
+                onClick={() => setCurrentStage('delivery')}
+              >
+                Continuar com a entrega
+              </Button>
+            )}
           </>
         )}
 
         {currentStage === 'delivery' && (
           <Checkout
             onBack={() => setCurrentStage('cart')}
-            onConfirm={() => setCurrentStage('payment')}
+            onConfirm={(values) => {
+              setDeliveryData(values)
+              setCurrentStage('payment')
+            }}
           />
         )}
 
-        {currentStage === 'payment' && (
+        {currentStage === 'payment' && deliveryData && (
           <Payment
+            deliveryData={deliveryData}
             onBack={() => setCurrentStage('delivery')}
-            onConfirm={() => setCurrentStage('success')}
+            onConfirm={(id) => {
+              setOrderId(id)
+              setCurrentStage('success')
+            }}
           />
         )}
 
-        {currentStage === 'success' && <Success onFinished={finishOrder} />}
+        {currentStage === 'success' && (
+          <Success orderId={orderId} onFinished={finishOrder} />
+        )}
       </S.Sidebar>
     </S.CartContainer>
   )

@@ -3,12 +3,13 @@ import * as S from './styles'
 
 type Props = {
   onFinished: () => void
+  orderId: string
 }
 
-const Success = ({ onFinished }: Props) => {
+const Success = ({ onFinished, orderId }: Props) => {
   return (
     <S.CheckoutContainer>
-      <h3>Pedido realizado - {'{ORDER_ID}'}</h3>
+      <h3>Pedido realizado - {orderId}</h3>
       <p>
         Estamos felizes em informar que seu pedido já está em processo de
         preparação e, em breve, será entregue no endereço fornecido.
