@@ -11,6 +11,17 @@ import { parseToBrl } from '../../../utils'
 import Button from '../../Button'
 import * as S from './styles'
 
+interface Product {
+  id: number
+  preco: number
+}
+
+interface PurchaseResponse {
+  data: {
+    orderId: string
+  }
+}
+
 type Props = {
   onBack: () => void
   onConfirm: (orderId: string) => void
@@ -22,9 +33,9 @@ const Payment = ({ onBack, onConfirm, deliveryData }: Props) => {
   const { items } = useSelector((state: RootReducer) => state.cart)
 
   const getTotalPrice = () => {
-    // Definindo acc como number e item como any para limpar o erro
-    return items.reduce((acc: number, item: any) => {
-      return acc + item.preco
+    // Trocamos 'any' por 'Product'
+    return items.reduce((acc: number, item: Product) => {
+      return acc + (item.preco || 0)
     }, 0)
   }
 
@@ -43,9 +54,9 @@ const Payment = ({ onBack, onConfirm, deliveryData }: Props) => {
       expiresMonth: Yup.string().required('Obrigatório'),
       expiresYear: Yup.string().required('Obrigatório')
     }),
-    onSubmit: async (values) => {
+    onSubmit: (values) => {
       purchase({
-        products: items.map((item: any) => ({
+        products: items.map((item: Product) => ({
           id: item.id,
           price: item.preco
         })),
@@ -70,9 +81,11 @@ const Payment = ({ onBack, onConfirm, deliveryData }: Props) => {
             }
           }
         }
-      }).then((res: any) => {
-        if ('data' in res) {
-          onConfirm(res.data.orderId)
+      }).then((res) => {
+        const response = res as PurchaseResponse
+
+        if (response.data && response.data.orderId) {
+          onConfirm(response.data.orderId)
         }
       })
     }

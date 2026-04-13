@@ -11,6 +11,14 @@ import Payment from './Payment'
 import Success from './Success'
 import * as S from './styles'
 
+// 1. Definindo a interface para os itens do carrinho
+interface CartItem {
+  id: number
+  nome: string
+  preco: number
+  foto: string
+}
+
 type CartStage = 'cart' | 'delivery' | 'payment' | 'success'
 
 const Cart = () => {
@@ -21,8 +29,9 @@ const Cart = () => {
   const dispatch = useDispatch()
 
   const getTotalPrice = () => {
-    return items.reduce((acumulador: number, item: any) => {
-      return (acumulador += item.preco)
+    // 2. Substituído 'any' pela interface 'CartItem'
+    return items.reduce((acc: number, item: CartItem) => {
+      return (acc += item.preco)
     }, 0)
   }
 
@@ -48,7 +57,8 @@ const Cart = () => {
         {currentStage === 'cart' && (
           <>
             <ul>
-              {items.map((item: any) => (
+              {/* 3. Substituído 'any' por 'CartItem' para evitar o erro do linter */}
+              {items.map((item: CartItem) => (
                 <li key={item.id}>
                   <S.CartItem>
                     <img src={item.foto} alt={item.nome} />
